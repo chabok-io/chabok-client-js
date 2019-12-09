@@ -3,7 +3,7 @@
 
 > A simple demo to demonstrate features and capabilities of the Chabok Push client for JavaScript
 
-[DEMO](https://webpush.chabokpush.com/)
+[DEMO](https://webpush.chabok.io/)
 
 This sample is a static web app bootstrapped with Vanilla JS containing a thin UI wrapper around [Bootstrap](http://getbootstrap.com/) library to show how different features can work together to form a compelling real-time messaging web app.
 
