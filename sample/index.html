@@ -60,7 +60,7 @@
 <nav class="navbar bg-light">
   <a class="navbar-brand" href="#">
     <img src="https://raw.githubusercontent.com/jangholi/chabok-assets/master/chaboklogoblue.png" height="30" class="d-inline-block align-top" alt="">
-    Chabok Web SDK Sample v1.5.0
+    Chabok Web SDK Sample v1.6.0
   </a>
   <button type="button" id="status" class="btn btn-danger pull-right">Disconnected</button>
 </nav>
@@ -117,21 +117,21 @@
   </ul>
 </div>
 
-<script src="../dist/chabokpush.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const registerButton = document.getElementById("register")
-    const registerAsGuestButton = document.getElementById("registerAsGuest")
-    const statusButton = document.getElementById("status")
-    const messageField = document.getElementById("message-field")
-    const userIdField = document.getElementById("user-field")
-    const sendButton = document.getElementById("message-send")
-    const unRegisterButton = document.getElementById("unRegister")
-    const trackButton = document.getElementById("trackPurchase")
-    const trackPurchaseButton = document.getElementById("trackPurchaseButton")
-    const userAttribute = document.getElementById("userAttribute")
-    const invalidFeedback = document.querySelector(".invalid-feedback")
-    const validFeedback = document.querySelector(".valid-feedback")
+  window.chkAsynInit = function() {
+    initChabok();
+  };
+
+  // Load the SDK Asynchronously
+  (function(d){
+     var js, id = 'chabok-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "../dist/chabokpush.min.js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document));
+  
+  function initChabok() {
     const authConfig = {
       appId: 'chabok-starter',
       webKey: '1b98c60220b7e07c76142ea0635f69fb0dba5d7d',
@@ -144,7 +144,7 @@
       },
       silent: false,
     };
-    const chabok = new chabokpush.Chabok(authConfig, options);
+    const chabok = new Chabok(authConfig, options);
     if (chabok.isRegistered() && chabok.getUserId()) {
       chabok.register(chabok.getUserId())
     } else {
@@ -155,6 +155,19 @@
         console.error(e)
       })
     }
+
+    const registerButton = document.getElementById("register")
+    const registerAsGuestButton = document.getElementById("registerAsGuest")
+    const statusButton = document.getElementById("status")
+    const messageField = document.getElementById("message-field")
+    const userIdField = document.getElementById("user-field")
+    const sendButton = document.getElementById("message-send")
+    const unRegisterButton = document.getElementById("unRegister")
+    const trackButton = document.getElementById("trackPurchase")
+    const trackPurchaseButton = document.getElementById("trackPurchaseButton")
+    const userAttribute = document.getElementById("userAttribute")
+    const invalidFeedback = document.querySelector(".invalid-feedback")
+    const validFeedback = document.querySelector(".valid-feedback")
 
     function disconnectedStatus() {
       statusButton.innerText = "Disconnected"
@@ -347,7 +360,8 @@
       .addEventListener('click', _ => {
         chabok.incrementUserAttribute('comedy_movie', 1)
       })
-  });
+  }
+
 </script>
 </body>
 </html>
