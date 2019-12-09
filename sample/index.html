@@ -144,7 +144,7 @@
       },
       silent: false,
     };
-    const chabok = new Chabok(authConfig, options);
+    const chabok = new chabokpush.Chabok(authConfig, options);
     if (chabok.isRegistered() && chabok.getUserId()) {
       chabok.register(chabok.getUserId())
     } else {
