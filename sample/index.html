@@ -60,7 +60,7 @@
 <nav class="navbar bg-light">
   <a class="navbar-brand" href="#">
     <img src="https://raw.githubusercontent.com/jangholi/chabok-assets/master/chaboklogoblue.png" height="30" class="d-inline-block align-top" alt="">
-    Chabok Web SDK Sample v1.6.0
+    Chabok Web SDK Sample v2.0.0
   </a>
   <button type="button" id="status" class="btn btn-danger pull-right">Disconnected</button>
 </nav>
@@ -79,21 +79,52 @@
         <div class="invalid-feedback">
           Error: Please Enter Valid user Id!
         </div>
-        <div class="valid-feedback">
-          You registered on Chabok successfully.
+        <div id="login-message" class="valid-feedback">
+          User successfully logged in.
+        </div>
+        <div id="logout-message" class="valid-feedback">
+          User successfully logged out.
         </div>
       </div>
     </div>
     <div class="row">
-      <button type="button" id="register" class="btn btn-primary mr-1">Register</button>
-      <button type="button" id="registerAsGuest" class="btn btn-info mr-1">Register as a guest</button>
-      <button type="button" id="unRegister" class="btn btn-danger mr-1">Unregister</button>
+      <button type="button" id="loginButton" class="btn btn-primary mr-1">Login</button>
+      <button type="button" id="logoutButton" class="btn btn-danger mr-1">Logout</button>
     </div>
+    <hr>
+    <h4 class="float-left">Track Events</h4>
     <div class="row d-flex justify-content-sm-right " style="flex-direction: row-reverse;">
-      <button type="button" id="trackPurchaseButton" class="btn btn-warning ml-1 mt-3">Purchase (10000)</button>
-      <button type="button" id="trackPurchase" class="btn btn-warning ml-1 mt-3">AddToCard (123)</button>
-
-      <button type="button" id="userAttribute" class="btn btn-warning ml-1 mt-3">User Attribute</button>
+      <div class="col">
+        <button type="button" id="trackPurchaseButton" class="btn btn-warning">Purchase (10000)</button>
+      </div>
+      <div class="col">
+        <button type="button" id="trackRevenueButton" class="btn btn-warning">Revenue (15000)</button>
+      </div>
+      <div class="col">
+        <button type="button" id="trackPurchase" class="btn btn-warning">AddToCart (123)</button>
+      </div>
+    </div>
+    <hr>
+    <h4 class="float-left">User Attributes</h4>
+    <div class="row">
+      <div class="col-md-4 col-sm-6 mb-2">
+        <input class="form-control" type="text" id="attributeKey" placeholder="Attribute Key" />
+      </div>
+      <div class="col-md-4 col-sm-6 mb-2">
+        <input class="form-control" type="text" id="attributeValue" placeholder="Attribute Value" />
+      </div>
+      <div class="col">
+        <button type="button" id="userAttribute" class="btn btn-warning">Set User Attribute</button>
+      </div>
+      <div class="col">
+        <button type="button" id="unsetUserAttribute" class="btn btn-warning">Unset User Attribute</button>
+      </div>
+      <div class="col">
+        <button type="button" id="addToUserAttributeArray" class="btn btn-warning">Add To Attribute Array</button>
+      </div>
+      <div class="col">
+        <button type="button" id="removeFromUserAttributeArray" class="btn btn-warning">Remove From Attribute Array</button>
+      </div>
     </div>
   </div>
   <hr/>
@@ -127,10 +158,10 @@
      var js, id = 'chabok-jssdk', ref = d.getElementsByTagName('script')[0];
      if (d.getElementById(id)) {return;}
      js = d.createElement('script'); js.id = id; js.async = true;
-     js.src = "../dist/chabokpush.min.js";
+     js.src = "chabokpush.min.js";
      ref.parentNode.insertBefore(js, ref);
    }(document));
-  
+
   function initChabok() {
     const authConfig = {
       appId: 'chabok-starter',
@@ -142,32 +173,29 @@
         enabled: true,
         publicKey: 'BLbNRYGZ39Qx-qYrlenpoWArW4zNR6A5XG9ch0VrA8YbJDWMJeWV0hK25Qt75NMrjgP_GG07TBnJ8gNPnVPGkyg'
       },
-      silent: false,
+        serviceWorker: {
+          path: 'sw.js'
+        },
+      silent: false
     };
     const chabok = new chabokpush.Chabok(authConfig, options);
-    if (chabok.isRegistered() && chabok.getUserId()) {
-      chabok.register(chabok.getUserId())
-    } else {
-      chabok.registerAsGuest().then(_=>{
-        chabok.subscribe("wall")
-        chabok.subscribe("private/sport")
-      }).catch(e =>{
-        console.error(e)
-      })
-    }
 
-    const registerButton = document.getElementById("register")
-    const registerAsGuestButton = document.getElementById("registerAsGuest")
+    const loginButton = document.getElementById("loginButton")
     const statusButton = document.getElementById("status")
     const messageField = document.getElementById("message-field")
     const userIdField = document.getElementById("user-field")
     const sendButton = document.getElementById("message-send")
-    const unRegisterButton = document.getElementById("unRegister")
+    const logoutButton = document.getElementById("logoutButton")
     const trackButton = document.getElementById("trackPurchase")
     const trackPurchaseButton = document.getElementById("trackPurchaseButton")
+    const trackRevenueButton = document.getElementById("trackRevenueButton")
     const userAttribute = document.getElementById("userAttribute")
+    const unsetUserAttribute = document.getElementById("unsetUserAttribute")
+    const addToUserAttributeArray = document.getElementById("addToUserAttributeArray")
+    const removeFromUserAttributeArray = document.getElementById("removeFromUserAttributeArray")
     const invalidFeedback = document.querySelector(".invalid-feedback")
-    const validFeedback = document.querySelector(".valid-feedback")
+    const validFeedback = document.getElementById("login-message")
+    const validLogOutFeedback = document.getElementById("logout-message")
 
     function disconnectedStatus() {
       statusButton.innerText = "Disconnected"
@@ -179,12 +207,18 @@
       classList(statusButton).add("btn-success").remove("btn-danger")
     }
 
-    function registeredStat() {
+    function loginStatus() {
+      let isLoggedIn = chabok.isLoggedIn()
       document.getElementById('userId').value = chabok.getUserId()
+      if (!isLoggedIn){
+        classList(validFeedback).remove("d-block")
+        classList(validLogOutFeedback).add("d-block")
+      } else {
+        classList(validFeedback).add("d-block")
+        classList(validLogOutFeedback).remove("d-block")
+      }
+
       classList(invalidFeedback).remove("d-block")
-      classList(validFeedback).add("d-block")
-      unRegisterButton.disabled = false
-      // registerButton.disabled = true
     }
 
     /**
@@ -212,7 +246,7 @@
 
     chabok.on('registered', deviceId => {
       console.log('DeviceId ', deviceId)
-      registeredStat()
+      loginStatus()
     })
     chabok.on('connected', _ => {
       successStatus()
@@ -270,51 +304,27 @@
       console.log('disconnected')
     })
 
-    if (chabok.isRegistered()) {
-      unRegisterButton.disabled = false
-      // registerButton.disabled = true
-    } else {
-      unRegisterButton.disabled = true
-      registerButton.disabled = false
-      registerAsGuestButton.disabled = false
-    }
-
-    registerButton
+    loginButton
       .addEventListener("click", _ => {
         const userId = document.getElementById('userId').value;
-
+        console.log('Login user with ' + userId + ' id')
         chabok
-          .register(userId)
+          .login(userId)
           .then(_ => {
-            registeredStat()
+            loginStatus()
           })
           .catch(_ => {
             classList(invalidFeedback).add("d-block")
             classList(validFeedback).remove("d-block")
+            classList(validLogOutFeedback).remove("d-block")
           })
       }, false);
 
-    registerAsGuestButton
+    logoutButton
       .addEventListener("click", _ => {
-        chabok
-          .registerAsGuest()
-          .then(_ => {
-            registeredStat()
-          })
-          .catch(_ => {
-            classList(invalidFeedback).add("d-block")
-            classList(validFeedback).remove("d-block")
-          })
-      }, false);
-
-    unRegisterButton
-      .addEventListener("click", _ => {
-        chabok.unregister()
+        chabok.logout()
         document.getElementById('userId').value = ''
-        unRegisterButton.disabled = true
-        registerButton.disabled = false
       }, false);
-
 
     sendButton
       .addEventListener("click", _ => {
@@ -345,20 +355,56 @@
         const eventData = {
           value: "PRODUCT_123"
         }
-        chabok.track('AddToCard', eventData)
+        chabok.track('AddToCart', eventData)
       })
 
     trackPurchaseButton
       .addEventListener('click', _ => {
         const eventData = {
-          revenue: 10000
+          revenue: 10000,
+          data: {
+            purchaseDate: new Date()
+          }
         }
         chabok.trackPurchase('Purchase', eventData)
       })
 
+    trackRevenueButton
+      .addEventListener('click', _ => {
+        chabok.trackRevenue(15000)
+      })
+
     userAttribute
       .addEventListener('click', _ => {
-        chabok.incrementUserAttribute('comedy_movie', 1)
+        console.log('sending "Farbod" user attribute ...')
+        chabok.setUserAttributes({
+          firstname: 'Farbod',
+          lastname: 'Samsamipour',
+          age: 28,
+          isCool: true,
+          birthday: new Date(),
+          graduatedAt: new Date()
+        })
+      })
+
+    unsetUserAttribute
+      .addEventListener('click', _ => {
+        console.log('sending unset user attribute ...')
+        chabok.unsetUserAttribute(document.getElementById('attributeKey').value)
+      })
+
+    addToUserAttributeArray
+      .addEventListener('click', _ => {
+        console.log('sending add to user attribute array ...')
+        chabok.addToUserAttributeArray(document.getElementById('attributeKey').value,
+                                       document.getElementById('attributeValue').value)
+      })
+
+    removeFromUserAttributeArray
+      .addEventListener('click', _ => {
+        console.log('sending remove from user attribute array ...')
+        chabok.removeFromUserAttributeArray(document.getElementById('attributeKey').value,
+                                            document.getElementById('attributeValue').value)
       })
   }
 
