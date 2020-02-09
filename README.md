@@ -178,6 +178,9 @@ chabok.on('connecting', _ => console.log('Reconnecting'))
 chabok.on('disconnected', _ => console.log('offline'))
 chabok.on('closed', _ => console.log('disconnected'))
 
-
-// chabok.login('LOGIN_USER_ID')
+if (chabok.isRegistered() && chabok.getUserId()) {
+  chabok.register(chabok.getUserId())
+} else {
+  chabok.register('012345678910111213') // your userId
+}
 ```

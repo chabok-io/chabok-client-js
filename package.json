@@ -1,6 +1,6 @@
 {
     "name": "chabokpush",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "Chabok Javascript client for browsers, Web Workers & Node.js",
     "main": "dist/chabokpush.min.js",
     "homepage": "http://chabokpush.com/",
