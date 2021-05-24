@@ -1,0 +1,5 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "io.chabok.webpush.twa",
+    "sha256_cert_fingerprints": ["FA:0C:70:FF:0E:4E:C8:83:2A:D0:EB:A0:A4:5C:81:F7:61:08:67:84:C1:64:8E:D0:DD:76:D8:4A:BE:A8:FF:79"] }
+}]

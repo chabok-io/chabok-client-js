@@ -2,17 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
-        integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/jangholi/chabok-assets/master/chaboklogoblue.png"/>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-  <title>Chabok Web Push Notifications</title>
-  <link rel="manifest" href="manifest.json">
+  <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+        integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" rel="stylesheet">
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+  <link href="https://raw.githubusercontent.com/jangholi/chabok-assets/master/chaboklogoblue.png" rel="icon"
+        type="image/png"/>
+  <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+        integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" rel="stylesheet">
+  <title>Chabok Web SDK Sample</title>
+  <link href="manifest.json" rel="manifest">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css"
+        rel="stylesheet"/>
+
+  <script>(function(f,b){if(!b.__SV){var e,g,i,h;window.mixpanel=b;b._i=[];b.init=function(e,f,c){function g(a,d){var b=d.split(".");2==b.length&&(a=a[b[0]],d=b[1]);a[d]=function(){a.push([d].concat(Array.prototype.slice.call(arguments,0)))}}var a=b;"undefined"!==typeof c?a=b[c]=[]:c="mixpanel";a.people=a.people||[];a.toString=function(a){var d="mixpanel";"mixpanel"!==c&&(d+="."+c);a||(d+=" (stub)");return d};a.people.toString=function(){return a.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");
+    for(h=0;h<i.length;h++)g(a,i[h]);var j="set set_once union unset remove delete".split(" ");a.get_group=function(){function b(c){d[c]=function(){call2_args=arguments;call2=[c].concat(Array.prototype.slice.call(call2_args,0));a.push([e,call2])}}for(var d={},e=["get_group"].concat(Array.prototype.slice.call(arguments,0)),c=0;c<j.length;c++)b(j[c]);return d};b._i.push([e,f,c])};b.__SV=1.2;e=f.createElement("script");e.type="text/javascript";e.async=!0;e.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?
+    MIXPANEL_CUSTOM_LIB_URL:"file:"===f.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";g=f.getElementsByTagName("script")[0];g.parentNode.insertBefore(e,g)}})(document,window.mixpanel||[]);
+  mixpanel.init("94febc4fbd72e58aae8840554fba6690", {batch_requests: true})</script>
+
 </head>
 <style>
-  body {
-    background: #eee;
+
+  .circle-connected {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: green;
+  }
+
+  .circle-connecting {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: yellow;
+  }
+
+  .circle-disconnected {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: red;
+  }
+
+  .btn {
+    font-size: 12px
   }
 
   .list-group li::after {
@@ -23,202 +55,542 @@
     margin: auto 15px;
   }
 
-  .github-ribbon {
-    position: absolute;
-    top: 15px;
-    right: -114px;
-    padding: 1px 0;
-    transform-origin: top left;
-    transform: rotate(45deg);
-    background-color: #377fff;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.15)));
-    background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.25), transparent);
-    background-image: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.25), transparent);
-    background-image: -o-linear-gradient(bottom, rgba(0, 0, 0, 0.25), transparent);
-    background-image: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0.25), transparent);
-    background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.25), transparent);
-  }
-
-  a.github-ribbon__link {
-    display: inline-block;
-    width: 250px;
-    color: #fff;
-    font-size: 0.8em;
-    letter-spacing: 0.06em;
-    text-shadow: 0 -1px #777;
-    text-decoration: none;
-    text-align: center;
-    line-height: 30px;
-    border-top: 1px dotted #ffc284;
-    border-bottom: 1px dotted #ffa951;
+  div.decreaseTopOfContainer {
+    margin-top: -35px;
   }
 </style>
 <body>
-<div class="github-ribbon"><a target="_blank" class="github-ribbon__link"
-                              href="https://github.com/chabokpush/chabok-client-js" title="Fork me on GitHub">Fork me on
-  GitHub</a></div>
-<nav class="navbar bg-light">
-  <a class="navbar-brand" href="#">
-    <img src="https://raw.githubusercontent.com/jangholi/chabok-assets/master/chaboklogoblue.png" height="30" class="d-inline-block align-top" alt="">
-    Chabok Web SDK Sample v2.0.1
-  </a>
-  <button type="button" id="status" class="btn btn-danger pull-right">Disconnected</button>
-</nav>
 
+<div>
+  <a aria-label="View source on GitHub" class="github-corner" href="https://github.com/chabok-io/chabok-client-js">
+    <svg aria-hidden="true" height="55"
+         style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" viewBox="0 0 250 250"
+         width="55">
+      <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+      <path class="octo-arm"
+            d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+            fill="currentColor" style="transform-origin: 130px 106px;"></path>
+      <path class="octo-body"
+            d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+            fill="currentColor"></path>
+    </svg>
+  </a>
+  <style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+  }
+
+  @keyframes octocat-wave {
+    0%, 100% {
+      transform: rotate(0)
+    }
+    20%, 60% {
+      transform: rotate(-25deg)
+    }
+    40%, 80% {
+      transform: rotate(10deg)
+    }
+  }
+
+  @media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+      animation: none
+    }
+
+    .github-corner .octo-arm {
+      animation: octocat-wave 560ms ease-in-out
+    }
+  }</style>
+</div>
 
 <div class="container">
   <div class="columns mt-5">
+
     <div class="row">
-      <div class="form-group col-md-12 p-0">
-        <label for="userId">User Id</label>
-        <input type="text" id="userId" class="form-control col-md-12" placeholder="Please Enter User Id"
-               aria-describedby="userIdHelpBlock">
-        <small id="userIdHelpBlock" class="form-text text-muted">
-          Please Enter Valid User id, for example Phone Number, email, etc.
-        </small>
+      <div class="col-1">
+        <div id="connectionStatusCircleDiv" class="circle-disconnected"></div>
+      </div>
+      <div id="connectionStatusDiv" class="col-6">
+        <p>Disconnected</p>
+      </div>
+
+      <div id="appIdDiv" class="col-5">
+        <!-- Button trigger modal -->
+        <button id="buttonConfigModal" type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+          Starter
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Config environment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body col mr-1 ml-1">
+                <div class="form-group">
+                  <select class="custom-select" id="environmentSelect">
+                    <option class="dropdown-item" href="#">Development</option>
+                    <option class="dropdown-item" href="#">Sandbox</option>
+                    <option class="dropdown-item" href="#">Production</option>
+                  </select>
+                </div>
+
+                <div class="form-check mt-1 ml-4">
+                  <input class="form-check-input" id="realtimeCheckBox" type="checkbox" value="">
+                  <label class="form-check-label" for="realtimeCheckBox">
+                    Realtime
+                  </label>
+                </div>
+
+                <input class="form-control" id="appIdInput" placeholder="APP_ID" type="text">
+                <input class="form-control mt-1" id="webKeyInput" placeholder="WEB_KEY" type="text">
+                <input class="form-control mt-1" id="vapidPublicKeyInput" placeholder="VAPID_PUBLIC_KEY" type="text">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="btnSaveConfig" type="button" data-dismiss="modal" class="btn btn-primary">Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <hr>
+
+    <h3>User</h3>
+    <div class="row">
+      <div class="form-group col-12 col-md-6 mt-1">
+        <input aria-describedby="userIdHelpBlock" class="form-control col-md-12" id="userIdInput"
+               placeholder="user id"
+               type="text">
         <div class="invalid-feedback">
           Error: Please Enter Valid user Id!
         </div>
-        <div id="login-message" class="valid-feedback">
+        <div class="valid-feedback" id="login-message">
           User successfully logged in.
         </div>
-        <div id="logout-message" class="valid-feedback">
+        <div class="valid-feedback" id="logout-message">
           User successfully logged out.
         </div>
       </div>
+      <div class="col-6 col-md-3 mt-1">
+        <button class="btn btn-block btn-lg btn-secondary text-uppercase pl-0 pr-0" id="loginButton" type="button">
+          Login
+        </button>
+      </div>
+      <div class="col-6 col-md-3 mt-1">
+        <button class="btn btn-block btn-lg btn-secondary text-uppercase pl-0 pr-0" id="logoutButton" type="button">
+          Logout
+        </button>
+      </div>
+    </div>
+
+    <hr>
+
+    <h3>Tag</h3>
+    <div class="row">
+      <div class="form-group col-12 col-md-6 mt-1">
+        <input class="form-control col-md-12" id="tagNameInput" placeholder="tag name" type="text">
+      </div>
+      <div class="col-6 col-md-3 mt-1">
+        <button class="btn btn-block btn-lg btn-secondary text-uppercase pl-0 pr-0" id="addTagButton" type="button">Add
+          Tag
+        </button>
+      </div>
+      <div class="col-6 col-md-3 mt-1">
+        <button class="btn btn-block btn-lg btn-secondary text-uppercase pl-0 pr-0" id="removeTagButton" type="button">
+          Remove Tag
+        </button>
+      </div>
+    </div>
+
+    <hr>
+
+    <h3>Attribute</h3>
+    <div class="row">
+      <div class="form-group col-4 col-md-4 mt-1 pr-1">
+        <input class="form-control col-md-12" id="attributeKeyInput" placeholder="key" type="text">
+      </div>
+      <div class="form-group col-4 col-md-4 mt-1 pl-1 pr-1">
+        <input class="form-control col-md-12" id="attributeValueInput" placeholder="value" type="text">
+      </div>
+
+      <div class="form-group col-4 col-md-4 mt-1 pl-1">
+        <select id="attributeTypeSelect" class="custom-select w-100">
+          <option class="dropdown-item" href="#">String</option>
+          <option class="dropdown-item" href="#">Integer</option>
+          <option class="dropdown-item" href="#">Float</option>
+          <option class="dropdown-item" href="#">Boolean</option>
+          <option class="dropdown-item" href="#">DateTime</option>
+          <option class="dropdown-item" href="#">Array</option>
+        </select>
+      </div>
     </div>
     <div class="row">
-      <button type="button" id="loginButton" class="btn btn-primary mr-1">Login</button>
-      <button type="button" id="logoutButton" class="btn btn-danger mr-1">Logout</button>
+      <div class="form-group col-6 col-lg-3 mt-1">
+        <button class="btn btn-block btn-lg btn-secondary text-uppercase pl-0 pr-0" id="setAttributeButton"
+                type="button">Set Attribute
+        </button>
+      </div>
+      <div class="form-group col-6 col-lg-3 mt-1">
+        <button class="btn btn-block btn-lg btn-secondary text-uppercase pl-0 pr-0" id="unsetAttributeButton"
+                type="button">Unset Attribute
+        </button>
+      </div>
+      <div class="form-group col-6 col-lg-3 mt-1">
+        <button class="btn btn-block btn-lg btn-secondary text-uppercase pl-0 pr-0" id="addToArrayButton" type="button">
+          Add To Array
+        </button>
+      </div>
+      <div class="form-group col-6 col-lg-3 mt-1">
+        <button class="btn btn-block btn-lg btn-secondary text-uppercase pl-0 pr-0" id="removeFromArrayButton"
+                type="button">Remove From Array
+        </button>
+      </div>
     </div>
-    <hr>
-    <h4 class="float-left">Track Events</h4>
-    <div class="row d-flex justify-content-sm-right " style="flex-direction: row-reverse;">
-      <div class="col">
-        <button type="button" id="trackPurchaseButton" class="btn btn-warning">Purchase (10000)</button>
-      </div>
-      <div class="col">
-        <button type="button" id="trackRevenueButton" class="btn btn-warning">Revenue (15000)</button>
-      </div>
-      <div class="col">
-        <button type="button" id="trackPurchase" class="btn btn-warning">AddToCart (123)</button>
-      </div>
-    </div>
-    <hr>
-    <h4 class="float-left">User Attributes</h4>
+    <h5>Default Attributes:</h5>
     <div class="row">
-      <div class="col-md-4 col-sm-6 mb-2">
-        <input class="form-control" type="text" id="attributeKey" placeholder="Attribute Key" />
+      <div class="form-group col-6 col-lg-3 mt-1">
+        <button class="btn btn-block btn-lg btn-secondary text-uppercase pl-0 pr-0" id="setDefaultAttributeButton"
+                type="button">Set Default
+        </button>
       </div>
-      <div class="col-md-4 col-sm-6 mb-2">
-        <input class="form-control" type="text" id="attributeValue" placeholder="Attribute Value" />
+      <div class="form-group col-6 col-lg-3 mt-1">
+        <button class="btn btn-block btn-lg btn-secondary text-uppercase pl-0 pr-0" id="unsetDefaultAttributeButton"
+                type="button">Unset Default
+        </button>
       </div>
-      <div class="col">
-        <button type="button" id="userAttribute" class="btn btn-warning">Set User Attribute</button>
+      <div class="form-group col-6 col-lg-3 mt-1">
+        <button class="btn btn-block btn-lg btn-secondary text-uppercase pl-0 pr-0" id="incrementAgeButton"
+                type="button">Increment (Age)
+        </button>
       </div>
-      <div class="col">
-        <button type="button" id="unsetUserAttribute" class="btn btn-warning">Unset User Attribute</button>
-      </div>
-      <div class="col">
-        <button type="button" id="addToUserAttributeArray" class="btn btn-warning">Add To Attribute Array</button>
-      </div>
-      <div class="col">
-        <button type="button" id="removeFromUserAttributeArray" class="btn btn-warning">Remove From Attribute Array</button>
+      <div class="form-group col-6 col-lg-3 mt-1">
+        <button class="btn btn-block btn-lg btn-secondary text-uppercase pl-0 pr-0" id="decrementAgeButton"
+                type="button">Decrement (Age)
+        </button>
       </div>
     </div>
+
+    <hr>
+
+    <h3>Event</h3>
+    <div class="row">
+      <div class="form-group col-6 col-md-4 mt-1">
+        <input class="form-control col-md-12" id="eventNameInput" placeholder="name" type="text">
+      </div>
+      <div class="form-group col-6 col-md-4 mt-1">
+        <input class="form-control col-md-12" id="eventRevenueInput" placeholder="revenue" type="text">
+      </div>
+
+      <div class="form-group col-12 col-md-4 mt-1">
+        <button class="btn btn-block btn-lg btn-secondary text-uppercase pl-0 pr-0" id="sendEventButton" type="button">
+          Send Event
+        </button>
+      </div>
+    </div>
+    <h6>Event Data:</h6>
+    <!-- 1 -->
+    <div class="row">
+      <div class="form-group col-4 col-md-4 mt-1 pr-1">
+        <input class="form-control col-md-12" id="eventKey1Input" placeholder="key" type="text">
+      </div>
+      <div class="form-group col-4 col-md-4 mt-1 pl-1 pr-1">
+        <input class="form-control col-md-12" id="eventValue1Input" placeholder="value" type="text">
+      </div>
+
+      <div class="form-group col-4 col-md-4 mt-1 pl-1">
+        <select id="eventType1" class="custom-select w-100">
+          <option class="dropdown-item" href="#">String</option>
+          <option class="dropdown-item" href="#">Integer</option>
+          <option class="dropdown-item" href="#">Float</option>
+          <option class="dropdown-item" href="#">Boolean</option>
+          <option class="dropdown-item" href="#">DateTime</option>
+          <option class="dropdown-item" href="#">Array</option>
+        </select>
+      </div>
+    </div>
+    <!-- 2 -->
+    <div class="row">
+      <div class="form-group col-4 col-md-4 mt-1 pr-1">
+        <input class="form-control col-md-12" id="eventKey2Input" placeholder="key" type="text">
+      </div>
+      <div class="form-group col-4 col-md-4 mt-1 pl-1 pr-1">
+        <input class="form-control col-md-12" id="eventValue2Input" placeholder="value" type="text">
+      </div>
+
+      <div class="form-group col-4 col-md-4 mt-1 pl-1">
+        <select id="eventType2" class="custom-select w-100">
+          <option class="dropdown-item" href="#">String</option>
+          <option class="dropdown-item" href="#">Integer</option>
+          <option class="dropdown-item" href="#">Float</option>
+          <option class="dropdown-item" href="#">Boolean</option>
+          <option class="dropdown-item" href="#">DateTime</option>
+          <option class="dropdown-item" href="#">Array</option>
+        </select>
+      </div>
+    </div>
+    <!-- 3 -->
+    <div class="row">
+      <div class="form-group col-4 col-md-4 mt-1 pr-1">
+        <input class="form-control col-md-12" id="eventKey3Input" placeholder="key" type="text">
+      </div>
+      <div class="form-group col-4 col-md-4 mt-1 pl-1 pr-1">
+        <input class="form-control col-md-12" id="eventValue3Input" placeholder="value" type="text">
+      </div>
+
+      <div class="form-group col-4 col-md-4 mt-1 pl-1">
+        <select id="eventType3" class="custom-select w-100">
+          <option class="dropdown-item" href="#">String</option>
+          <option class="dropdown-item" href="#">Integer</option>
+          <option class="dropdown-item" href="#">Float</option>
+          <option class="dropdown-item" href="#">Boolean</option>
+          <option class="dropdown-item" href="#">DateTime</option>
+          <option class="dropdown-item" href="#">Array</option>
+        </select>
+      </div>
+    </div>
+    <!-- 4 -->
+    <div class="row">
+      <div class="form-group col-4 col-md-4 mt-1 pr-1">
+        <input class="form-control col-md-12" id="eventKey4Input" placeholder="key" type="text">
+      </div>
+      <div class="form-group col-4 col-md-4 mt-1 pl-1 pr-1">
+        <input class="form-control col-md-12" id="eventValue4Input" placeholder="value" type="text">
+      </div>
+
+      <div class="form-group col-4 col-md-4 mt-1 pl-1">
+        <select id="eventType4" class="custom-select w-100">
+          <option class="dropdown-item" href="#">String</option>
+          <option class="dropdown-item" href="#">Integer</option>
+          <option class="dropdown-item" href="#">Float</option>
+          <option class="dropdown-item" href="#">Boolean</option>
+          <option class="dropdown-item" href="#">DateTime</option>
+          <option class="dropdown-item" href="#">Array</option>
+        </select>
+      </div>
+    </div>
+    <!-- 5 -->
+    <div class="row">
+      <div class="form-group col-4 col-md-4 mt-1 pr-1">
+        <input class="form-control col-md-12" id="eventKey5Input" placeholder="key" type="text">
+      </div>
+      <div class="form-group col-4 col-md-4 mt-1 pl-1 pr-1">
+        <input class="form-control col-md-12" id="eventValue5Input" placeholder="value" type="text">
+      </div>
+
+      <div class="form-group col-4 col-md-4 mt-1 pl-1">
+        <select id="eventType5" class="custom-select w-100">
+          <option class="dropdown-item" href="#">String</option>
+          <option class="dropdown-item" href="#">Integer</option>
+          <option class="dropdown-item" href="#">Float</option>
+          <option class="dropdown-item" href="#">Boolean</option>
+          <option class="dropdown-item" href="#">DateTime</option>
+          <option class="dropdown-item" href="#">Array</option>
+        </select>
+      </div>
+    </div>
+    <h5>Default Events:</h5>
+    <div class="row">
+      <div class="form-group col-6 col-lg-6 mt-1">
+        <button class="btn btn-block btn-lg btn-lg btn-secondary text-uppercase pl-0 pr-0" id="addToCartButton"
+                type="button">Add To Cart
+        </button>
+      </div>
+      <div class="form-group col-6 col-lg-6 mt-1">
+        <button class="btn btn-block btn-lg btn-lg btn-secondary text-uppercase pl-0 pr-0" id="purchaseButton"
+                type="button">Purchase (15,000)
+        </button>
+      </div>
+    </div>
+
+    <hr>
+
+    <h4>Logs</h4>
+    <div class="row btn-secondary p-3">
+      <div id="messageLogDiv">
+
+      </div>
+    </div>
+
   </div>
-  <hr/>
-  <h4 class="float-left">Messages List</h4>
-
-  <div class="form-row">
-    <div  class="col-2"></div>
-    <div class="col-md-4 col-sm-6 mb-2">
-      <input class="form-control" type="text" id="user-field" placeholder="User ID" />
-    </div>
-    <div class="col-md-4 col-sm-6 mb-2">
-      <input class="form-control" type="text" id="message-field" placeholder="Type a message..." />
-    </div>
-    <div class="col">
-      <button class="btn btn-success" id="message-send">Send</button>
-    </div>
-  </div>
-
-  <ul id="list" class="list-group mt-4">
-
-  </ul>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
 <script>
-  window.chkAsynInit = function() {
-    initChabok();
+
+  const realtimeCheckBox = document.getElementById('realtimeCheckBox')
+  const buttonConfigModal = document.getElementById('buttonConfigModal')
+  const environmentSelect = document.getElementById('environmentSelect')
+  const appIdInput = document.getElementById('appIdInput')
+  const webKeyInput = document.getElementById('webKeyInput')
+  const vapidPublicKeyInput = document.getElementById('vapidPublicKeyInput')
+
+  const btnSaveConfig = document.getElementById('btnSaveConfig')
+  const connectionStatusCircleDiv = document.getElementById('connectionStatusCircleDiv')
+  const connectionStatusDiv = document.getElementById('connectionStatusDiv')
+
+  const userIdInput = document.getElementById('userIdInput')
+  const loginButton = document.getElementById('loginButton')
+  const logoutButton = document.getElementById('logoutButton')
+  const validFeedback = document.getElementById('login-message')
+  const invalidFeedback = document.querySelector('.invalid-feedback')
+  const validLogOutFeedback = document.getElementById('logout-message')
+
+  const tagNameInput = document.getElementById('tagNameInput')
+  const addTagButton = document.getElementById('addTagButton')
+  const removeTagButton = document.getElementById('removeTagButton')
+
+  const attributeKeyInput = document.getElementById('attributeKeyInput')
+  const attributeValueInput = document.getElementById('attributeValueInput')
+
+  const setAttributeButton = document.getElementById('setAttributeButton')
+  const unsetAttributeButton = document.getElementById('unsetAttributeButton')
+  const addToArrayButton = document.getElementById('addToArrayButton')
+  const removeFromArrayButton = document.getElementById('removeFromArrayButton')
+
+  const attributeTypeSelect = document.getElementById('attributeTypeSelect')
+
+  const incrementAgeButton = document.getElementById('incrementAgeButton')
+  const decrementAgeButton = document.getElementById('decrementAgeButton')
+  const setDefaultAttributeButton = document.getElementById('setDefaultAttributeButton')
+  const unsetDefaultAttributeButton = document.getElementById('unsetDefaultAttributeButton')
+
+  const sendEventButton = document.getElementById('sendEventButton')
+  const eventNameInput = document.getElementById('eventNameInput')
+  const eventRevenueInput = document.getElementById('eventRevenueInput')
+
+  const eventType1 = document.getElementById('eventType1')
+  const eventKey1Input = document.getElementById('eventKey1Input')
+  const eventValue1Input = document.getElementById('eventValue1Input')
+
+  const eventType2 = document.getElementById('eventType2')
+  const eventKey2Input = document.getElementById('eventKey2Input')
+  const eventValue2Input = document.getElementById('eventValue2Input')
+
+  const eventType3 = document.getElementById('eventType3')
+  const eventKey3Input = document.getElementById('eventKey3Input')
+  const eventValue3Input = document.getElementById('eventValue3Input')
+
+  const eventType4 = document.getElementById('eventType4')
+  const eventKey4Input = document.getElementById('eventKey4Input')
+  const eventValue4Input = document.getElementById('eventValue4Input')
+
+  const eventType5 = document.getElementById('eventType5')
+  const eventKey5Input = document.getElementById('eventKey5Input')
+  const eventValue5Input = document.getElementById('eventValue5Input')
+
+  const addToCartButton = document.getElementById('addToCartButton')
+  const purchaseButton = document.getElementById('purchaseButton')
+
+  const messageLogDiv = document.getElementById('messageLogDiv')
+
+  const authConfig = {
+    appId: 'chabok-starter',
+    webKey: '1b98c60220b7e07c76142ea0635f69fb0dba5d7d',
+    devMode: true
+  }
+  const options = {
+    webpush: {
+      enabled: true,
+      publicKey: 'BLbNRYGZ39Qx-qYrlenpoWArW4zNR6A5XG9ch0VrA8YbJDWMJeWV0hK25Qt75NMrjgP_GG07TBnJ8gNPnVPGkyg'
+    },
+    serviceWorker: {
+      path: 'sw.js'
+    },
+    silent: false,
+    realtime: false
+  }
+
+  window.chkAsynInit = function () {
+    initChabok()
   };
 
   // Load the SDK Asynchronously
-  (function(d){
-     var js, id = 'chabok-jssdk', ref = d.getElementsByTagName('script')[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement('script'); js.id = id; js.async = true;
-     js.src = "chabokpush.min.js";
-     ref.parentNode.insertBefore(js, ref);
-   }(document));
+  (function (d) {
+    var js, id = 'chabok-jssdk', ref = d.getElementsByTagName('script')[0]
+    if (d.getElementById(id)) {
+      return
+    }
+    js = d.createElement('script')
+    js.id = id
+    js.async = true
+    js.src = 'chabokpush.min.js'
+    ref.parentNode.insertBefore(js, ref)
+  }(document))
 
   function initChabok() {
-    const authConfig = {
-      appId: 'chabok-starter',
-      webKey: '1b98c60220b7e07c76142ea0635f69fb0dba5d7d',
-      devMode: true
-    };
-    const options = {
-      webpush: {
-        enabled: true,
-        publicKey: 'BLbNRYGZ39Qx-qYrlenpoWArW4zNR6A5XG9ch0VrA8YbJDWMJeWV0hK25Qt75NMrjgP_GG07TBnJ8gNPnVPGkyg'
-      },
-        serviceWorker: {
-          path: 'sw.js'
-        },
-      silent: false
-    };
-    const chabok = new chabokpush.Chabok(authConfig, options);
 
-    const loginButton = document.getElementById("loginButton")
-    const statusButton = document.getElementById("status")
-    const messageField = document.getElementById("message-field")
-    const userIdField = document.getElementById("user-field")
-    const sendButton = document.getElementById("message-send")
-    const logoutButton = document.getElementById("logoutButton")
-    const trackButton = document.getElementById("trackPurchase")
-    const trackPurchaseButton = document.getElementById("trackPurchaseButton")
-    const trackRevenueButton = document.getElementById("trackRevenueButton")
-    const userAttribute = document.getElementById("userAttribute")
-    const unsetUserAttribute = document.getElementById("unsetUserAttribute")
-    const addToUserAttributeArray = document.getElementById("addToUserAttributeArray")
-    const removeFromUserAttributeArray = document.getElementById("removeFromUserAttributeArray")
-    const invalidFeedback = document.querySelector(".invalid-feedback")
-    const validFeedback = document.getElementById("login-message")
-    const validLogOutFeedback = document.getElementById("logout-message")
+    options.realtime = window.localStorage.getItem('realtime') === 'true' || options.realtime;
+    options.webpush.publicKey = window.localStorage.getItem('vapidKey') || options.webpush.publicKey
+    authConfig.appId = window.localStorage.getItem('appId') || authConfig.appId;
+    authConfig.webKey = window.localStorage.getItem('webKey') || authConfig.webKey;
 
-    function disconnectedStatus() {
-      statusButton.innerText = "Disconnected"
-      classList(statusButton).remove("btn-success").add("btn-danger")
+    const env = window.localStorage.getItem('chabokEnv') || 'Sandbox'
+
+    if (env === 'Development'){
+      authConfig.devEnv = true
+      authConfig.devMode = true
+      environmentSelect.selectedIndex = 0
+      } else if (env === 'Sandbox'){
+      authConfig.devMode = true
+      environmentSelect.selectedIndex = 1
+    } else if (env === 'Production'){
+      authConfig.devMode = false
+      environmentSelect.selectedIndex = 2
     }
 
-    function successStatus() {
-      statusButton.innerText = "Connected"
-      classList(statusButton).add("btn-success").remove("btn-danger")
+    buttonConfigModal.textContent = authConfig.appId
+    appIdInput.value = authConfig.appId
+    webKeyInput.value = authConfig.webKey
+    vapidPublicKeyInput.value = options.webpush.publicKey
+    realtimeCheckBox.checked = options.realtime
+
+    const chabok = new chabokpush.Chabok(authConfig, options)
+
+    mixpanel.track("appLaunch", {"realtime": options.realtime, "env": env})
+
+    function disconnectedStatus() {
+      connectionStatusDiv.innerText = 'Disconnected'
+      classList(connectionStatusCircleDiv)
+        .remove('circle-connecting')
+        .remove('circle-connected')
+        .add('circle-disconnected')
+    }
+
+    function connectedStatus() {
+      connectionStatusDiv.innerText = 'Connected'
+      classList(connectionStatusCircleDiv)
+        .remove('circle-connecting')
+        .remove('circle-disconnected')
+        .add('circle-connected')
+    }
+
+    function connectingStatus() {
+      connectionStatusDiv.innerText = 'Connecting'
+      classList(connectionStatusCircleDiv)
+        .remove('circle-connected')
+        .remove('circle-disconnected')
+        .add('circle-connecting')
     }
 
     function loginStatus() {
-      let isLoggedIn = chabok.isLoggedIn()
-      document.getElementById('userId').value = chabok.getUserId()
-      if (!isLoggedIn){
-        classList(validFeedback).remove("d-block")
-        classList(validLogOutFeedback).add("d-block")
-      } else {
-        classList(validFeedback).add("d-block")
-        classList(validLogOutFeedback).remove("d-block")
-      }
-
-      classList(invalidFeedback).remove("d-block")
+      userIdInput.value = chabok.getUserId()
     }
 
     /**
@@ -227,187 +599,383 @@
      * @return {{toggle: toggle, add: add, remove: remove}}
      */
     function classList(elt) {
-      const list = elt.classList;
+      const list = elt.classList
       return {
         toggle: function (c) {
-          list.toggle(c);
-          return this;
+          list.toggle(c)
+          return this
         },
         add: function (c) {
-          list.add(c);
-          return this;
+          list.add(c)
+          return this
         },
         remove: function (c) {
-          list.remove(c);
-          return this;
+          list.remove(c)
+          return this
         }
-      };
+      }
     }
 
-    chabok.on('registered', deviceId => {
-      console.log('DeviceId ', deviceId)
+    chabok.on('registered', _ => {
       loginStatus()
     })
-    chabok.on('connected', _ => {
-      successStatus()
-      console.log('Connected')
-    });
 
     chabok.on('message', msg => {
       console.log(msg)
-      const date = new Date(msg.createdAt);
-      const ul = document.getElementById("list");
-      const li = document.createElement("li");
-      li.setAttribute("class", "list-group-item")
-      li.appendChild(document.createTextNode(`${msg.content}`));
-      li.dataset.date = `${date.getFullYear()}/${date.getMonth()}/${date.getDay()} ${date.getHours()}:${date.getMinutes()}`
 
-      if (msg.publishId) {
-        let userId = msg.publishId.split('/')[0];
-        console.log('publishid', chabok.getUserId())
-        if (chabok.getUserId() === userId) {
-          li.setAttribute("class", "list-group-item text-right")
-          delete li.dataset.date
-        } else {
-          const button = document.createElement('button')
-          button.setAttribute("class", "btn btn-primary float-right")
-          button.innerHTML = '<span class="fas fa-reply"></span>'
-          const btnListener = _ => {
-            chabok.publish({
-              content: messageField.value,
-              channel: 'default',
-              user: userId,
-              createdAt: Date.now()
-            }).then(res => {
-              button.innerHTML = '<span class="fas fa-check"></span>'
-              button.setAttribute('class', 'btn btn-success float-right')
-              button.removeEventListener('click', btnListener)
-            })
-            messageField.value = ''
-          }
-
-          button.addEventListener('click', btnListener)
-          li.appendChild(button)
-        }
-      }
-      ul.insertAdjacentElement('afterbegin', li);
+      messageLogDiv.innerText += JSON.stringify(msg) + '\n'
     })
 
-    chabok.on('geo', geoEvent => console.log('Geo Event ', geoEvent))
-    chabok.on('connecting', _ => console.log('Reconnecting'))
+    chabok.on('connecting', _ => {
+      connectingStatus()
+    })
     chabok.on('disconnected', _ => {
       disconnectedStatus()
-      console.log('offline')
     })
     chabok.on('closed', _ => {
       disconnectedStatus()
-      console.log('disconnected')
+    })
+    chabok.on('connected', _ => {
+      connectedStatus()
     })
 
     loginButton
-      .addEventListener("click", _ => {
-        const userId = document.getElementById('userId').value;
+      .addEventListener('click', _ => {
+        const userId = userIdInput.value
         console.log('Login user with ' + userId + ' id')
-        chabok
-          .login(userId)
-          .then(_ => {
-            loginStatus()
-          })
+
+        chabok.login(userId).then(_ => {
+          loginStatus()
+
+          classList(validFeedback).add('d-block')
+          classList(invalidFeedback).remove('d-block')
+          classList(validLogOutFeedback).remove('d-block')
+        })
           .catch(_ => {
-            classList(invalidFeedback).add("d-block")
-            classList(validFeedback).remove("d-block")
-            classList(validLogOutFeedback).remove("d-block")
+            classList(invalidFeedback).add('d-block')
+            classList(validFeedback).remove('d-block')
+            classList(validLogOutFeedback).remove('d-block')
           })
-      }, false);
+
+        mixpanel.identify(userId)
+
+      }, false)
 
     logoutButton
-      .addEventListener("click", _ => {
-        chabok.logout()
-        document.getElementById('userId').value = ''
-      }, false);
-
-    sendButton
-      .addEventListener("click", _ => {
-        if(messageField.value){
-          let user = '*'
-          let channel = 'wall'
-          if (userIdField.value) {
-            channel = 'default'
-            user = userIdField.value
-          }
-
-          chabok.publish({
-            channel: channel,
-            content: messageField.value,
-            user: user,
-            createdAt: Date.now()
-          })
-            .then(x => {
-              alert('پیام با موفقیت ارسال شد')
-            })
-
-          messageField.value = ''
-        }
-      })
-
-    trackButton
       .addEventListener('click', _ => {
-        const eventData = {
-          value: "PRODUCT_123"
-        }
-        chabok.track('AddToCart', eventData)
-      })
+        chabok.logout().then(_ => {
+          userIdInput.value = chabok.getUserId()
 
-    trackPurchaseButton
-      .addEventListener('click', _ => {
-        const eventData = {
-          revenue: 10000,
-          data: {
-            purchaseDate: new Date()
-          }
-        }
-        chabok.trackPurchase('Purchase', eventData)
-      })
+          classList(validFeedback).remove('d-block')
+          classList(invalidFeedback).remove('d-block')
+          classList(validLogOutFeedback).add('d-block')
+        }).catch(_ => {
+          userIdInput.value = ''
 
-    trackRevenueButton
-      .addEventListener('click', _ => {
-        chabok.trackRevenue(15000)
-      })
-
-    userAttribute
-      .addEventListener('click', _ => {
-        console.log('sending "Farbod" user attribute ...')
-        chabok.setUserAttributes({
-          firstname: 'Farbod',
-          lastname: 'Samsamipour',
-          age: 28,
-          isCool: true,
-          birthday: new Date(),
-          graduatedAt: new Date()
+          classList(invalidFeedback).add('d-block')
+          classList(validFeedback).remove('d-block')
+          classList(validLogOutFeedback).remove('d-block')
         })
-      })
+      }, false)
 
-    unsetUserAttribute
-      .addEventListener('click', _ => {
-        console.log('sending unset user attribute ...')
-        chabok.unsetUserAttribute(document.getElementById('attributeKey').value)
-      })
+    purchaseButton.addEventListener('click', _ => {
+      chabok.trackRevenue(15000)
+    })
 
-    addToUserAttributeArray
-      .addEventListener('click', _ => {
-        console.log('sending add to user attribute array ...')
-        chabok.addToUserAttributeArray(document.getElementById('attributeKey').value,
-                                       document.getElementById('attributeValue').value)
-      })
+    addToCartButton.addEventListener('click', _ => {
+      const data = {
+        isFresh: true,
+        productId: '6985',
+        productName: 'milk',
+        quantity: 10,
+        expirationDate: new Date(),
+        similarProducts: ['cheese', 'butter', 'egg']
+      }
 
-    removeFromUserAttributeArray
-      .addEventListener('click', _ => {
-        console.log('sending remove from user attribute array ...')
-        chabok.removeFromUserAttributeArray(document.getElementById('attributeKey').value,
-                                            document.getElementById('attributeValue').value)
-      })
+      chabok.track('AddToCart', data)
+
+      mixpanel.track('AddToCart', data)
+    })
+
+    attributeTypeSelect.addEventListener('change', _ => {
+      const type = attributeTypeSelect.options[attributeTypeSelect.selectedIndex].value
+
+      attributeValueInput.placeholder = getPlaceholderFromType(type);
+    })
+
+    setDefaultAttributeButton.addEventListener('click', _ => {
+      const attributes = {
+        age: 28,
+        isVIP: true,
+        birthday: new Date(695427010000),
+        firstname: 'Chabok',
+        lastname: 'ChabokZadeh',
+        favoriteProducts: ['cheese', 'butter', 'egg']
+      }
+
+      chabok.setUserAttributes(attributes)
+
+      mixpanel.people.set(attributes)
+    })
+
+    unsetDefaultAttributeButton.addEventListener('click', _ => {
+      chabok.unsetUserAttribute('firstname')
+      chabok.unsetUserAttribute('lastname')
+      chabok.unsetUserAttribute('age')
+      chabok.unsetUserAttribute('birthday')
+      chabok.unsetUserAttribute('favoriteProducts')
+      chabok.unsetUserAttribute('isVIP')
+    })
+
+    decrementAgeButton.addEventListener('click', _ => {
+      chabok.incrementUserAttribute('age', -1)
+    })
+
+    incrementAgeButton.addEventListener('click', _ => {
+      chabok.incrementUserAttribute('age')
+    })
+
+    setAttributeButton.addEventListener('click', _ => {
+      const valueType = attributeTypeSelect.options[attributeTypeSelect.selectedIndex].value
+      const attributeKey = attributeKeyInput.value
+      let attributeValue = attributeValueInput.value
+      const attribute = {}
+
+      attributeValue = getValueFromType(attributeValue, valueType)
+
+      attribute[attributeKey] = attributeValue
+
+      chabok.setUserAttributes(attribute)
+
+      mixpanel.people.set(attribute)
+    })
+
+    unsetAttributeButton.addEventListener('click', _ => {
+      const attributeKey = attributeKeyInput.value
+
+      chabok.unsetUserAttribute(attributeKey)
+    })
+
+    addToArrayButton.addEventListener('click', _ => {
+      const attributeKey = attributeKeyInput.value
+      const attributeValue = attributeValueInput.value || ''
+
+      if (attributeValue.includes(',')) {
+        console.log('attributeValue.split(\',\')',attributeValue.split(','))
+        chabok.addToUserAttributeArray(attributeKey, attributeValue.split(','))
+      } else {
+        chabok.addToUserAttributeArray(attributeKey, attributeValue)
+      }
+    })
+
+    removeFromArrayButton.addEventListener('click', _ => {
+      const attributeKey = attributeKeyInput.value
+      const attributeValue = attributeValueInput.value || ''
+
+      if (attributeValue.includes(',')) {
+        chabok.removeFromUserAttributeArray(attributeKey, attributeValue.split(','))
+      } else {
+        chabok.removeFromUserAttributeArray(attributeKey, attributeValue)
+      }
+    })
+
+    addTagButton.addEventListener('click', _ => {
+      let tagsName = tagNameInput.value
+
+      if (tagsName === '') {
+        console.warn('tagName is empty')
+        return
+      }
+
+      tagsName = tagNameInput.value.split(',')
+
+      chabok.addTags(...tagsName)
+    })
+
+    removeTagButton.addEventListener('click', _ => {
+      let tagsName = tagNameInput.value
+
+      if (tagsName === '') {
+        console.warn('tagName is empty')
+        return
+      }
+
+      tagsName = tagNameInput.value.split(',')
+
+      chabok.removeTags(...tagsName)
+    })
+
+    sendEventButton.addEventListener('click', _ => {
+      const evetName = eventNameInput.value
+      const revenue = eventRevenueInput.value
+      var data = {}
+
+      if (evetName === '') {
+        console.warn('EventName is empty....')
+        return
+      }
+
+      if (eventKey1Input.value !== '') {
+        const valueType = eventType1.options[eventType1.selectedIndex].value
+        const key = eventKey1Input.value
+        let value = eventValue1Input.value
+
+        data[key] = getValueFromType(value, valueType)
+      }
+
+      if (eventKey2Input.value !== '') {
+        const valueType = eventType2.options[eventType2.selectedIndex].value
+        const key = eventKey2Input.value
+        let value = eventValue2Input.value
+
+        data[key] = getValueFromType(value, valueType)
+      }
+
+      if (eventKey3Input.value !== '') {
+        const valueType = eventType3.options[eventType3.selectedIndex].value
+        const key = eventKey3Input.value
+        let value = eventValue3Input.value
+
+        data[key] = getValueFromType(value, valueType)
+      }
+
+      if (eventKey4Input.value !== '') {
+        const valueType = eventType4.options[eventType4.selectedIndex].value
+        const key = eventKey4Input.value
+        let value = eventValue4Input.value
+
+        data[key] = getValueFromType(value, valueType)
+      }
+
+      if (eventKey5Input.value !== '') {
+        const valueType = eventType5.options[eventType5.selectedIndex].value
+        const key = eventKey5Input.value
+        let value = eventValue5Input.value
+
+        data[key] = getValueFromType(value, valueType)
+      }
+
+      if (revenue !== '') {
+        const chabokEvent = {
+          revenue: +revenue,
+          data
+        }
+
+        chabok.trackPurchase(evetName, chabokEvent)
+      } else {
+        chabok.track(evetName, data)
+      }
+
+      mixpanel.track(evetName, data)
+    })
+
+    eventType1.addEventListener('change', _ => {
+      const type = eventType1.options[eventType1.selectedIndex].value
+
+      eventValue1Input.placeholder = getPlaceholderFromType(type);
+    })
+
+    eventType2.addEventListener('change', _ => {
+      const type = eventType2.options[eventType2.selectedIndex].value
+
+      eventValue2Input.placeholder = getPlaceholderFromType(type);
+    })
+
+    eventType3.addEventListener('change', _ => {
+      const type = eventType3.options[eventType3.selectedIndex].value
+
+      eventValue3Input.placeholder = getPlaceholderFromType(type);
+    })
+
+    eventType4.addEventListener('change', _ => {
+      const type = eventType4.options[eventType4.selectedIndex].value
+
+      eventValue4Input.placeholder = getPlaceholderFromType(type);
+    })
+
+    eventType5.addEventListener('change', _ => {
+      const type = eventType5.options[eventType5.selectedIndex].value
+
+      eventValue5Input.placeholder = getPlaceholderFromType(type);
+    })
+
+    function getPlaceholderFromType(type) {
+      if (type === 'Array' ){
+        return 'Automation,Segment,SMS,Email,Push';
+      }
+
+      if (type === 'DateTime'){
+        return +(new Date());
+      }
+
+      if (type === 'Boolean'){
+        return true;
+      }
+
+      if (type === 'Integer'){
+        return 1234;
+      }
+
+      if (type === 'Float'){
+        return 1.23;
+      }
+
+      if (type === 'String'){
+        return 'value';
+      }
+
+      return 'value';
+    }
+
+    function getValueFromType(value, type) {
+      if (type === 'DateTime') {
+        return new Date(Number(value))
+      }
+
+      if (type === 'Float' || type === 'Integer') {
+        return Number(value)
+      }
+
+      if (type === 'Boolean') {
+        return value.trim().toLowerCase() === 'true'
+      }
+
+      if (type === 'Array') {
+        return value.split(',')
+      }
+
+      return value
+    }
+
   }
 
+  btnSaveConfig.addEventListener('click', _ => {
+    if (appIdInput.value === '' ||
+      webKeyInput.value === ''||
+      vapidPublicKeyInput.value === '') {
+      appIdInput.style.background = 'red'
+      webKeyInput.style.background = 'red'
+      vapidPublicKeyInput.style.background = 'red'
+
+      console.warn('parameters is empty');
+      return;
+    }
+
+    appIdInput.style.background = 'white'
+    webKeyInput.style.background = 'white'
+    vapidPublicKeyInput.style.background = 'white'
+
+    window.localStorage.setItem('realtime', realtimeCheckBox.checked)
+    window.localStorage.setItem('appId', appIdInput.value);
+    window.localStorage.setItem('webKey', webKeyInput.value);
+    window.localStorage.setItem('vapidKey', vapidPublicKeyInput.value);
+    window.localStorage.setItem('chabokEnv', environmentSelect.options[environmentSelect.selectedIndex].value);
+
+    window.localStorage.removeItem('CHABOK_SDK');
+    location.reload()
+  })
+
 </script>
+
 </body>
 </html>
